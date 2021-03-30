@@ -8,5 +8,6 @@ import com.lti.entity.User;
 @Repository
 public interface UserRepo extends JpaRepository<User, Integer> {
 	
+	User findByEmail(String Email);
 
 }

@@ -20,6 +20,9 @@ public class UserService {
         return repo.save(user);
     }
 	
-	
+	@Transactional(value = TxType.REQUIRED)
+	public User searchByEmail(String email){
+        return repo.findByEmail(email);
+    }
 	
 }

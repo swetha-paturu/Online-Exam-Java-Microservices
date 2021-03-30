@@ -8,8 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.NamedQuery;
-
 @Entity
 @Table(name = "users")
 @SequenceGenerator(name = "useq" ,sequenceName = "users_seq",initialValue = 101,allocationSize = 1)
@@ -85,5 +83,19 @@ public class User {
 
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+
+	public String getExamTaken() {
+		return examTaken;
+	}
+
+	public void setExamTaken(String examTaken) {
+		this.examTaken = examTaken;
+	}
+	
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", name=" + name + ", age=" + age + ", gender=" + gender + ", email=" + email
+				+ ", password=" + password + ", examTaken=" + examTaken + "]";
 	}
 }
