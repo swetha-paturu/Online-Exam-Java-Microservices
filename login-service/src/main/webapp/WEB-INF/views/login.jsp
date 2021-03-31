@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login Page</title>
+<script type="text/javascript">
+	function register() {
+		window.location.href="http://localhost:8003/register";
+	}
+</script>
 <style>
 Body {
 	font-family: Calibri, Helvetica, sans-serif;
@@ -54,6 +59,7 @@ button:hover {
 				type="password" placeholder="Enter Password" name="password"
 				required>
 			<button type="submit">Login</button>
+			<label style="font-size: 20px">Yet Not Registered!! <a href="javascript:register()">Register Here</a></label>
 		</div>
 	</form>
 </body>

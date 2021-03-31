@@ -48,7 +48,7 @@ public class UserController {
 
 		model.addAttribute("user", user.getName());
 
-		res.sendRedirect("http://localhost:4200");
+		res.sendRedirect("http://localhost:8002/login");
 	}
 	
 	@ResponseBody

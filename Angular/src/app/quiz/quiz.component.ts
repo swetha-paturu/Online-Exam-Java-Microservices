@@ -121,4 +121,8 @@ export class QuizComponent implements OnInit {
   logout() {
     window.location.href="http://localhost:8002/login";
   }
+
+  home() {
+    this.router.navigate(['home']);
+  }
 }

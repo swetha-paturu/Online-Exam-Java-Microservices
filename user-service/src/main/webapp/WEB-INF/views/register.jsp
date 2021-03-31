@@ -6,7 +6,7 @@
 <title>Register Page</title>
 <script type="text/javascript">
 	function register() {
-		alert("You have successfully signed up!! Proceed to Login");
+		confirm("You will be redirected to the Login Page if your registration is complete");
 	}
 </script>
 <style>

@@ -1,7 +1,3 @@
-<div style="float: right; margin-right: 30px; margin-bottom: 30px; margin-top: 20px;">
-  <button type="submit" class="btn btn-danger" (click)="logout()">LogOut</button>
-</div>
-
 <div class="row">
   <div class="col-6">
     <h3>IBM Online Practise Exam</h3>
@@ -45,6 +41,9 @@
     </div>
   </div>
   <div class="result" *ngIf="mode=='result'">
+    <div style="float: right;">
+      <button type="submit" class="btn btn-success" (click)="home()">  Back to Home </button>
+    </div>
     <h2>Quiz Result</h2>
     <div *ngFor="let question of quiz.questions; let index = index">
       <div class="result-question">
