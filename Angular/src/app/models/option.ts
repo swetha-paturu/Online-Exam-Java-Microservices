@@ -1,13 +1,13 @@
 export class Option {
-    id: number;
+    optionId: number;
     questionId: number;
     name: string;
-    isAnswer: boolean;
+    isAnswer: String;
     selected: boolean;
 
     constructor(data: any) {
         data = data || {};
-        this.id = data.id;
+        this.optionId = data.optionId;
         this.questionId = data.questionId;
         this.name = data.name;
         this.isAnswer = data.isAnswer;

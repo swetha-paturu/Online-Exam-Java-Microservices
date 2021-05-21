@@ -12,10 +12,15 @@ import { QuizService } from '../services/quiz.service';
   providers: [QuizService]
 })
 export class QuizComponent implements OnInit {
-  quizes: any[];
+  quizes: Question[] = [];
+  allQues: Question[] = [];
   quiz: Quiz = new Quiz(null);
   mode = 'quiz';
-  quizName: string;
+  score: number = 0;
+  correct: number[];
+  passingQuestionReq : number = 0;
+  currentPercent : number = 0;
+
   config: QuizConfig = {
     'allowBack': true,
     'allowReview': true,
@@ -45,21 +50,39 @@ export class QuizComponent implements OnInit {
   constructor(private quizService: QuizService, private router: Router) { }
 
   ngOnInit() {
-    this.quizes = this.quizService.getAll();
-    this.quizName = this.quizes[0].id;
-    this.loadQuiz(this.quizName);
+    this.correct = [];
+    this.quizService.getAll().subscribe(data => this.allQues = data);
+    this.loadQuiz();
+
   }
 
-  loadQuiz(quizName: string) {
-    this.quizService.get(quizName).subscribe(res => {
-      this.quiz = new Quiz(res);
-      this.pager.count = this.quiz.questions.length;
+  loadQuiz() {
+    this.quizService.getAll().subscribe(res => {
+      this.pager.count = 30;
       this.startTime = new Date();
       this.ellapsedTime = '00:00';
       this.timer = setInterval(() => { this.tick(); }, 1000);
       this.duration = this.parseTime(this.config.duration);
+      let arr: Question[] = this.shuffle(this.allQues);
+      for (let i = 0; i < this.pager.count; i++) {
+        this.quizes[i] = arr[i];
+      }
+      this.passingQuestionReq = Math.ceil((this.pager.count * 71) / 100);
     });
     this.mode = 'quiz';
+  }
+
+  shuffle(arr: Question[]) {
+    let input = arr;
+    for (let i = input.length - 1; i >= 0; i--) {
+
+      let randomIndex = Math.floor(Math.random() * (i + 1));
+      let itemAtIndex = input[randomIndex];
+
+      input[randomIndex] = input[i];
+      input[i] = itemAtIndex;
+    }
+    return input;
   }
 
   tick() {
@@ -80,14 +103,13 @@ export class QuizComponent implements OnInit {
   }
 
   get filteredQuestions() {
-    return (this.quiz.questions) ?
-      this.quiz.questions.slice(this.pager.index, this.pager.index + this.pager.size) : [];
+    return (this.quizes) ?
+      this.quizes.slice(this.pager.index, this.pager.index + this.pager.size) : [];
   }
 
   onSelect(question: Question, option: Option) {
-    if (question.questionTypeId === 1) {
-      question.options.forEach((x) => { if (x.id !== option.id) x.selected = false; });
-    }
+
+    question.option.forEach((x) => { if (x.optionId !== option.optionId) x.selected = false; });
 
     if (this.config.autoMove) {
       this.goTo(this.pager.index + 1);
@@ -102,24 +124,32 @@ export class QuizComponent implements OnInit {
   }
 
   isAnswered(question: Question) {
-    return question.options.find(x => x.selected) ? 'Answered' : 'Not Answered';
+    return question.option.find(x => x.selected) ? 'Answered' : 'Not Answered';
   };
 
-  isCorrect(question: Question) {
-    return question.options.every(x => x.selected === x.isAnswer) ? 'correct' : 'wrong';
+  isCorrect(question: Question, index: number) {
+    if (question.option.every(x => x.selected == (x.isAnswer == "true"))) {
+      this.correct[index] = 1;
+      return 'correct';
+    }
+    else
+      return 'wrong';
   };
 
   onSubmit() {
-    let answers = [];
-    this.quiz.questions.forEach(x => answers.push({ 'quizId': this.quiz.id, 'questionId': x.id, 'answered': x.answered }));
+    setTimeout(() => {
+      for (var i = 0; i < this.correct.length; ++i) {
+        if (this.correct[i] == 1)
+          this.score++;
+      }
+      this.currentPercent = this.score / this.pager.count * 100;
+    });
 
-    // Post your data to the server here. answers contains the questionId and the users' answer.
-    console.log(this.quiz.questions);
     this.mode = 'result';
   }
 
   logout() {
-    window.location.href="http://localhost:8002/login";
+    window.location.href = "http://localhost:8002/login";
   }
 
   home() {

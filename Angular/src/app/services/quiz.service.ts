@@ -1,19 +1,17 @@
+import { Question } from './../models/question';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
 
 @Injectable()
 export class QuizService {
+  private baseUrl : string = "http://localhost:8001";
 
   constructor(private http: HttpClient) { }
 
-  get(url: string) {
-    return this.http.get(url);
-  }
-
-  getAll() {
-    return [
-      { id: 'data/question.json', name: 'Exam' },
-    ];
+  getAll() : Observable<Question[]>{
+      return this.http.get<Question[]>(this.baseUrl + "/fetch_all_questions");
   }
 
 }

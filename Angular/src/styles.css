@@ -2,7 +2,7 @@
     border-radius: 0;
 }
 
-.option{
+.options{
     background-color:#cadaee;
     font-size:20px;
     padding:10px;
@@ -33,7 +33,7 @@
     h3,.h3{
         font-size:18px;
     }
-    .option {
+    .options {
         font-size: 16px;
         padding: 6px;
     }

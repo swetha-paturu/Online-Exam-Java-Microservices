@@ -1,20 +1,15 @@
 import { Option } from './option';
 
 export class Question {
-    id: number;
+    questionId: number;
     name: string;
-    questionTypeId: number;
-    options: Option[];
+    option: Option[];
     answered: boolean;
 
     constructor(data: any) {
         data = data || {};
-        this.id = data.id;
+        this.questionId = data.questionId;
         this.name = data.name;
-        this.questionTypeId = data.questionTypeId;
-        this.options = [];
-        data.options.forEach(o => {
-            this.options.push(new Option(o));
-        });
+        this.option = [];
     }
 }
