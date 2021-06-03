@@ -43,7 +43,7 @@
   </div>
   <div class="result" *ngIf="mode=='result'">
     <div style="float: right;">
-      <button type="submit" class="btn btn-success" (click)="home()"> Back to Home </button>
+      <button type="submit" class="btn btn-danger" (click)="logout()"> Logout </button>
     </div>
     <h2>Quiz Result : </h2>
       <h4><div>Passing Score : 71% ({{this.passingQuestionReq}} out of {{this.pager.count}}) </div></h4>

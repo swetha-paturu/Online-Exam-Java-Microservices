@@ -1,3 +1,4 @@
+import { User } from './../models/user';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -18,8 +19,9 @@ export class QuizComponent implements OnInit {
   mode = 'quiz';
   score: number = 0;
   correct: number[];
-  passingQuestionReq : number = 0;
-  currentPercent : number = 0;
+  passingQuestionReq: number = 0;
+  currentPercent: number = 0;
+  user : User;
 
   config: QuizConfig = {
     'allowBack': true,
@@ -53,6 +55,7 @@ export class QuizComponent implements OnInit {
     this.correct = [];
     this.quizService.getAll().subscribe(data => this.allQues = data);
     this.loadQuiz();
+    this.user = JSON.parse(localStorage.getItem("user"));
 
   }
 
@@ -137,22 +140,23 @@ export class QuizComponent implements OnInit {
   };
 
   onSubmit() {
-    setTimeout(() => {
-      for (var i = 0; i < this.correct.length; ++i) {
-        if (this.correct[i] == 1)
-          this.score++;
-      }
-      this.currentPercent = this.score / this.pager.count * 100;
-    });
+    if (window.confirm('Are sure you want to submit your exam ?')) {
 
-    this.mode = 'result';
+      setTimeout(() => {
+        for (var i = 0; i < this.correct.length; ++i) {
+          if (this.correct[i] == 1)
+            this.score++;
+        }
+        this.currentPercent = this.score / this.pager.count * 100;
+
+        this.quizService.updateScore(this.user.userId, this.currentPercent);
+      });
+
+      this.mode = 'result';
+    }
   }
 
   logout() {
-    window.location.href = "http://localhost:8002/login";
-  }
-
-  home() {
-    this.router.navigate(['home']);
+    this.router.navigate(['login']);
   }
 }

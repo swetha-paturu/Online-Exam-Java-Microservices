@@ -31,8 +31,11 @@ public class User {
 	@Column(length = 20)
 	private String password;
 	
-	@Column(length = 1)
-	private String examTaken = "n";
+	@Column(length = 3)
+	private String examTaken = "no";
+	
+	@Column
+	private double percentScore;
 	
 	private void user() {
 	}
@@ -92,10 +95,19 @@ public class User {
 	public void setExamTaken(String examTaken) {
 		this.examTaken = examTaken;
 	}
-	
+
+	public double getPercentScore() {
+		return percentScore;
+	}
+
+	public void setPercentScore(double percentScore) {
+		this.percentScore = percentScore;
+	}
+
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", name=" + name + ", age=" + age + ", gender=" + gender + ", email=" + email
-				+ ", password=" + password + ", examTaken=" + examTaken + "]";
+				+ ", password=" + password + ", examTaken=" + examTaken + ", percentScore=" + percentScore + "]";
 	}
+	
 }
