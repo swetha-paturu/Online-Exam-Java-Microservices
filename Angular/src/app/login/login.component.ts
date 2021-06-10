@@ -12,6 +12,7 @@ import { Component, OnInit } from '@angular/core';
 export class LoginComponent implements OnInit {
   login: Login;
   user: User;
+  showErrorMessage = false;
 
   constructor(private service: UserService, private router: Router) { 
     this.login = new Login();
@@ -22,7 +23,13 @@ export class LoginComponent implements OnInit {
   }
 
   async loggedIn() {
-    await this.service.login(this.login).then(data => this.user = data);
+    
+    await this.service.login(this.login).then(data => {this.user = data},
+      (error) => {
+        this.showErrorMessage = true;
+      });
+
+      if(this.user == null) this.showErrorMessage = true;
 
     localStorage.setItem("user", JSON.stringify(this.user));
     localStorage.setItem("uname", this.user.name);

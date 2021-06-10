@@ -19,9 +19,11 @@ export class QuizComponent implements OnInit {
   mode = 'quiz';
   score: number = 0;
   correct: number[];
+  noOfQuestionsAnswered: number[];
+  count: number = 0;
   passingQuestionReq: number = 0;
   currentPercent: number = 0;
-  user : User;
+  user: User;
 
   config: QuizConfig = {
     'allowBack': true,
@@ -53,6 +55,7 @@ export class QuizComponent implements OnInit {
 
   ngOnInit() {
     this.correct = [];
+    this.noOfQuestionsAnswered = [];
     this.quizService.getAll().subscribe(data => this.allQues = data);
     this.loadQuiz();
     this.user = JSON.parse(localStorage.getItem("user"));
@@ -92,7 +95,8 @@ export class QuizComponent implements OnInit {
     const now = new Date();
     const diff = (now.getTime() - this.startTime.getTime()) / 1000;
     if (diff >= this.config.duration) {
-      this.onSubmit();
+      this.onTimeOver();
+      clearInterval(this.timer);
     }
     this.ellapsedTime = this.parseTime(diff);
   }
@@ -110,8 +114,9 @@ export class QuizComponent implements OnInit {
       this.quizes.slice(this.pager.index, this.pager.index + this.pager.size) : [];
   }
 
-  onSelect(question: Question, option: Option) {
+  onSelect(question: Question, option: Option, index: number) {
 
+    this.noOfQuestionsAnswered[index] = 1;
     question.option.forEach((x) => { if (x.optionId !== option.optionId) x.selected = false; });
 
     if (this.config.autoMove) {
@@ -140,7 +145,46 @@ export class QuizComponent implements OnInit {
   };
 
   onSubmit() {
-    if (window.confirm('Are sure you want to submit your exam ?')) {
+    for (var i = 0; i < this.noOfQuestionsAnswered.length; ++i) {
+      if (this.noOfQuestionsAnswered[i] == 1)
+        this.count++;
+    }
+    if (this.count !== this.pager.count) {
+      if (window.confirm('You have not answered all questions. Do you still want to submit?')) {
+        setTimeout(() => {
+          for (var i = 0; i < this.correct.length; ++i) {
+            if (this.correct[i] == 1)
+              this.score++;
+          }
+          this.currentPercent = this.score / this.pager.count * 100;
+
+          this.quizService.updateScore(this.user.userId, this.currentPercent);
+          clearInterval(this.timer);
+        });
+        this.mode = 'result';
+      }
+      this.count=0;
+    }
+    else {
+      if (window.confirm('Are sure you want to submit your exam ?')) {
+        setTimeout(() => {
+          for (var i = 0; i < this.correct.length; ++i) {
+            if (this.correct[i] == 1)
+              this.score++;
+          }
+          this.currentPercent = this.score / this.pager.count * 100;
+
+          this.quizService.updateScore(this.user.userId, this.currentPercent);
+          clearInterval(this.timer);
+        });
+        this.mode = 'result';
+      }
+      this.count=0;
+    }
+  }
+
+    onTimeOver() {
+      window.alert('Sorry your time is over. You may proceed to the result')
 
       setTimeout(() => {
         for (var i = 0; i < this.correct.length; ++i) {
@@ -154,9 +198,8 @@ export class QuizComponent implements OnInit {
 
       this.mode = 'result';
     }
-  }
 
-  logout() {
-    this.router.navigate(['login']);
+    logout() {
+      this.router.navigate(['login']);
+    }
   }
-}

@@ -20,7 +20,7 @@
           <div class="options">
             <label class="font-weight-normal" [attr.for]="options.optionId">
               <input id="{{options.optionId}}" type="checkbox" [(ngModel)]="options.selected"
-                (change)="onSelect(question, options);" /> {{options.name}}
+                (change)="onSelect(question, options,pager.index);" /> {{options.name}}
             </label>
           </div>
         </div>

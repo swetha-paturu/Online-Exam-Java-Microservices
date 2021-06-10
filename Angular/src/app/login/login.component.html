@@ -1,6 +1,10 @@
 <form (ngSubmit)='loggedIn()'>
     <div><img src="../assets/LTI_logo.jpg" alt="LTI logo" height="100px" width="100px"></div>
 
+    <div class="alert alert-danger" *ngIf="showErrorMessage">
+      <h5>Invalid Email or Password. Please try again.</h5>
+    </div>
+
     <body class="bg-img">
         <div class="container d-flex justify-content-center">
             <div class="d-flex flex-column justify-content-between">
