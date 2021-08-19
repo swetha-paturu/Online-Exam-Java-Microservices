@@ -64,7 +64,7 @@ export class QuizComponent implements OnInit {
 
   loadQuiz() {
     this.quizService.getAll().subscribe(res => {
-      this.pager.count = 30;
+      this.pager.count = 60;
       this.startTime = new Date();
       this.ellapsedTime = '00:00';
       this.timer = setInterval(() => { this.tick(); }, 1000);
@@ -143,6 +143,10 @@ export class QuizComponent implements OnInit {
     else
       return 'wrong';
   };
+
+  getCorrectAnswer(question: Question){
+  return (question.option.find(x => x.isAnswer=="true")).name;
+}
 
   onSubmit() {
     for (var i = 0; i < this.noOfQuestionsAnswered.length; ++i) {

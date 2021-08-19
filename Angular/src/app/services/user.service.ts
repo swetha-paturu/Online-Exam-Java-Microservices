@@ -7,8 +7,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl : string = "http://localhost:8002";
-  private baseUrl1 : string = "http://localhost:8003";
+  private baseUrl : string = "http://192.168.1.4:8002";
+  private baseUrl1 : string = "http://192.168.1.4:8003";
 
   constructor(private http : HttpClient) { }
 

@@ -20,7 +20,8 @@ public class LoginController {
 	public Object login(@RequestParam("email") String email,
 			@RequestParam("password") String password) {
 		
-		String url = "http://USER-SERVICE/validate/" + email;
+//		String url = "http://USER-SERVICE/validate/" + email;
+		String url = "http://192.168.1.4:8003/validate/" + email;
 		
 		Object u = template.getForObject(url, Object.class);
 		Map map = (Map)u;

@@ -6,8 +6,10 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class QuizService {
-  private baseUrl : string = "http://localhost:8001";
-  private baseUrl1 : string = "http://localhost:8003";
+  private baseUrl : string = "http://192.168.1.4:8001";
+//  private baseUrl : string = "http://desktop-97q9p8g:8000/exam-service";
+//  private baseUrl1 : string = "http://desktop-97q9p8g:8000/user-service";
+  private baseUrl1 : string = "http://192.168.1.4:8003";
 
   constructor(private http: HttpClient) { }
 

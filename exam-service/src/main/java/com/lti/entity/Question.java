@@ -18,7 +18,7 @@ public class Question {
 	@Id
 	private int questionId;
 	
-	@Column(length = 400)
+	@Column(length = 500)
 	private String name;
 	
 	@OneToMany(mappedBy = "question", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
