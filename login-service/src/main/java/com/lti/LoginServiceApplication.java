@@ -9,11 +9,11 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 //@EnableEurekaClient
-@EnableHystrix
+//@EnableHystrix
 public class LoginServiceApplication {
 	
 	@Bean
-	@LoadBalanced
+//	@LoadBalanced
 	public RestTemplate gRestTemplate() { 
 		return new RestTemplate(); 
 	}
